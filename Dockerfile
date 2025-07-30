@@ -28,8 +28,6 @@ COPY composer/auth.json /root/.config/composer
 
 WORKDIR /var/www/html
 
-RUN chown -R www-data:www-data /var/www/html
-
 RUN composer create-project --repository-url=https://repo.magento.com/ \
                             --no-interaction \
                             --no-install \
@@ -43,3 +41,7 @@ RUN composer config --no-plugins allow-plugins.magento/inventory-composer-instal
 RUN composer config --no-plugins allow-plugins.magento/magento-composer-installer true
 
 RUN composer install
+
+RUN chown -R www-data:www-data /var/www/html
+
+CMD ["php-fpm7.4", "-F"]
