@@ -14,6 +14,8 @@ RUN apt-get clean
 
 RUN rm /var/www/html/index.html
 
+COPY fpm/magento2-pool.conf /etc/php/7.4/fpm/pool.d
+
 COPY bin/composer-install.sh /root
 RUN chmod +x /root/composer-install.sh
 WORKDIR /root
