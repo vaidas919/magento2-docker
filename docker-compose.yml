@@ -1,0 +1,19 @@
+name: magento-2_4_3
+
+services:
+  php:
+    image: vaidasg/php-magento-2.4.3:latest
+    build: docker/php
+    volumes:
+      - magento2-webroot:/var/www/html
+
+  nginx:
+    image: vaidasg/nginx:1.8
+    build: docker/nginx
+    ports:
+      - 80:80
+    volumes:
+      - magento2-webroot:/var/www/html
+
+volumes:
+  magento2-webroot:
