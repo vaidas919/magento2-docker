@@ -1,4 +1,4 @@
-# A build of Docker container images to facilitate running Magento 2 in a portable, secure and performant way.
+# A build of Docker container images made to run Magento 2 in a portable, secure and performant way.
 
 * Install docker-sync [docker-sync.io](http://docker-sync.io?_target=blank)
 * run docker-compose build
