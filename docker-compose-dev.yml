@@ -8,3 +8,9 @@ services:
   php:
     volumes:
       - magento2-webroot:/var/www/html
+  cli:
+    volumes:
+      - magento2-webroot:/var/www/html
+  nginx:
+    volumes:
+      - magento2-webroot:/var/www/html
