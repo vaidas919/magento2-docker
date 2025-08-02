@@ -4,7 +4,7 @@ RUN apt update
 RUN apt install -y zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libicu-dev libxml2-dev \
                    libxslt1-dev libzip-dev
 
-RUN docker-php-ext-install pdo_mysql intl soap xsl zip sockets
+RUN docker-php-ext-install pdo_mysql intl soap xsl zip sockets bcmath
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install -j$(nproc) gd
