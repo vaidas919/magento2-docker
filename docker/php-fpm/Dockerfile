@@ -10,8 +10,6 @@ RUN docker-php-ext-install -j$(nproc) gd
 RUN docker-php-source delete
 RUN apt clean
 
-COPY fpm/magento2-pool.conf /usr/local/etc/php-fpm.d
-
 RUN pecl channel-update pecl.php.net
 RUN pecl install mcrypt
     RUN touch /usr/local/etc/php/conf.d/ddocker-php-ext-mcrypt.ini
