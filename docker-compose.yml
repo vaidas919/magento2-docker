@@ -2,10 +2,16 @@ name: magento-2_4_3
 
 services:
   php:
-    image: vaidasg/php-magento-2.4.3:latest
-    build: docker/php
+    image: vaidasg/magento2.4.3-fpm:latest
+    build: docker/php-fpm
     volumes:
       - magento2-webroot:/var/www/html
+
+  cli:
+    image: vaidasg/magento2.4.3-cli:latest
+    build: docker/php-cli
+    volumes:
+          - magento2-webroot:/var/www/html
 
   nginx:
     image: vaidasg/nginx:1.8
@@ -14,6 +20,15 @@ services:
       - 80:80
     volumes:
       - magento2-webroot:/var/www/html
+
+  db:
+    image: vaidasg/mariadb:10.3
+    build: docker/mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: mage2_root_password
+      MYSQL_USER: mage2
+      MYSQL_PASSWORD: mage2
+      MYSQL_DATABASE: mage2
 
 volumes:
   magento2-webroot:
