@@ -2,18 +2,25 @@ FROM php:7.4-fpm
 
 RUN apt update
 RUN apt install -y libcurl4-openssl-dev zlib1g-dev libpng-dev libicu-dev libmcrypt-dev libxml2-dev \
-                   libjpeg-dev libfreetype6-dev libzip-dev libxslt1-dev
-RUN docker-php-source extract
+                   libjpeg-dev libfreetype6-dev libzip-dev libxslt1-dev sasl2-bin sendmail
 RUN docker-php-ext-install curl intl xsl pdo_mysql soap zip sockets bcmath
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install -j$(nproc) gd
-RUN docker-php-source delete
 RUN apt clean
 
 RUN pecl channel-update pecl.php.net
 RUN pecl install mcrypt
-    RUN touch /usr/local/etc/php/conf.d/ddocker-php-ext-mcrypt.ini
-RUN echo "extension=mcrypt.so" >> /usr/local/etc/php/conf.d/ddocker-php-ext-mcrypt.ini
+    RUN touch /usr/local/etc/php/conf.d/docker-php-ext-mcrypt.ini
+RUN echo "extension=mcrypt.so" >> /usr/local/etc/php/conf.d/docker-php-ext-mcrypt.ini
+
+COPY smtp-auth-creds /etc/mail
+RUN makemap hash /etc/mail/smtp-auth-creds < /etc/mail/smtp-auth-creds
+
+COPY sendmail.mc-part /root
+
+RUN sed -i '/divert(0)dnl/r /root/sendmail.mc-part' /etc/mail/sendmail.mc
+
+RUN make -C /etc/mail
 
 COPY bin/composer-install.sh /root/
 RUN chmod +x /root/composer-install.sh
